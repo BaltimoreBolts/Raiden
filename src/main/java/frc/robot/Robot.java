@@ -31,6 +31,7 @@ public class Robot extends IterativeRobot {
   public DifferentialDrive RobotDT;
   //public Joystick XController;
   public XboxController XController;
+  public Spark intakeSpark;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,6 +46,8 @@ public class Robot extends IterativeRobot {
     //RobotDT = new DriveTrain();
     RobotDT = new DifferentialDrive(new Spark(1), new Spark(0));
     XController = new XboxController(0);
+    intakeSpark = new Spark(2);
+    intakeSpark.enableDeadbandElimination(true);
   }
 
   /**
@@ -115,7 +118,21 @@ public class Robot extends IterativeRobot {
     double y = (XController.getTriggerAxis(Hand.kRight) - XController.getTriggerAxis(Hand.kLeft)) * 0.7;
   
     RobotDT.arcadeDrive(y , x);
-  }
+
+    // This code will assign a button to make motor go CW or CCW. 
+    // For future reference you need to know channel where it plugs in and position of motor.
+    if (XController.getAButton()) {
+      intakeSpark.set(1);
+      } 
+    else if (XController.getBButton()) {
+      intakeSpark.set(-1);
+      }  
+    else {
+      intakeSpark.set(0);
+      }
+
+    
+ }
 
   /**
    * This function is called periodically during test mode.
