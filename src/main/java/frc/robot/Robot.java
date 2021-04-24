@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,7 +24,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
   //public Joystick XController;
   public XboxController XController;
   public Spark intakeSpark;
+  public Servo servo = new Servo(8);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -129,7 +131,16 @@ public class Robot extends IterativeRobot {
       }  
     else {
       intakeSpark.set(0);
-      }
+    }
+
+    if (XController.getXButton()){
+      servo.set(0);
+    }
+    else if (XController.getYButton()){
+      servo.set(1);
+    }
+
+    
 
     
  }
